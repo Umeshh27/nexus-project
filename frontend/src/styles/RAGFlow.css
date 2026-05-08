@@ -1,0 +1,133 @@
+/* ============================================
+   RAG Flow — Interactive Pipeline
+   ============================================ */
+
+.rag {
+  background: var(--gray-50);
+}
+
+.rag__header {
+  margin-bottom: var(--space-20);
+}
+
+.rag__pipeline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  overflow-x: auto;
+  padding: var(--space-4) 0;
+  scrollbar-width: none;
+}
+
+.rag__pipeline::-webkit-scrollbar {
+  display: none;
+}
+
+.rag__step {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.rag__step-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+  min-width: 170px;
+  text-align: center;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.rag__step-card:hover {
+  border-color: var(--soft-blue);
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(154, 206, 226, 0.08);
+  transform: translateY(-4px);
+}
+
+.rag__step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-5);
+  color: var(--step-color, var(--navy));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--step-color, var(--navy)) 8%, transparent),
+    color-mix(in srgb, var(--step-color, var(--navy)) 15%, transparent)
+  );
+  transition: all var(--transition-base);
+}
+
+.rag__step-card:hover .rag__step-icon {
+  transform: scale(1.08);
+}
+
+.rag__step-title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+.rag__step-desc {
+  font-size: var(--font-size-xs);
+  color: var(--gray-400);
+  line-height: 1.6;
+}
+
+/* Connector */
+.rag__connector {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  flex-shrink: 0;
+}
+
+.rag__connector-line {
+  width: 32px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--soft-blue), var(--emerald));
+  border-radius: 1px;
+  transform-origin: left;
+}
+
+.rag__connector-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald);
+  margin-left: -1px;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .rag__pipeline {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .rag__step {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rag__step-card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .rag__connector {
+    transform: rotate(90deg);
+    padding: var(--space-1) 0;
+  }
+}

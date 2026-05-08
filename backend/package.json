@@ -1,0 +1,43 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "A Tinder application for developers",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ofctarun/DevTinder.git"
+  },
+  "keywords": [
+    "\"Namaste",
+    "Node.js\""
+  ],
+  "author": "Ofc_tarunn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ofctarun/DevTinder/issues"
+  },
+  "homepage": "https://github.com/ofctarun/DevTinder#readme",
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.971.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.0.2",
+    "multer": "^2.1.1",
+    "node-cron": "^4.2.1",
+    "nodemon": "^3.1.11",
+    "socket.io": "^4.8.3",
+    "validator": "^13.15.26",
+    "xlsx": "^0.18.5"
+  }
+}
