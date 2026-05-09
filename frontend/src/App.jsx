@@ -10,7 +10,7 @@ import { API_BASE_URL } from './utils/constants';
 
 let authInitAttempted = false;
 
-// Lazy load pages
+// Lazy load pages for code splitting and performance optimization
 const LandingPage = lazy(() => import('./pages/LandingPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -23,7 +23,7 @@ const AdminPage = lazy(() => import('./pages/AdminPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
-// Loading component
+// Loading component to display during fallback
 const PageLoader = () => (
   <div className="h-screen w-screen flex items-center justify-center bg-gray-50">
     <div className="w-8 h-8 border-4 border-[#223959]/20 border-t-[#223959] rounded-full animate-spin"></div>
@@ -34,7 +34,12 @@ export default function App() {
   const dispatch = useDispatch();
   const isInitialized = useSelector(selectIsInitialized);
 
-  // Initial Auth Check
+  /**
+   * Initial Authentication Check
+   * Attempts to refresh the user session on application load.
+   * If successful, sets the user credentials in the Redux store.
+   * Dispatches initComplete() regardless of outcome.
+   */
   useEffect(() => {
     if (authInitAttempted) return;
     authInitAttempted = true;
@@ -44,7 +49,7 @@ export default function App() {
         const { data } = await axios.get(`${API_BASE_URL}/api/auth/refresh`, { withCredentials: true });
         dispatch(setCredentials(data));
       } catch {
-        // No valid session, just finish init
+        // No valid session, user will need to log in manually
       } finally {
         dispatch(initComplete());
       }
@@ -52,9 +57,11 @@ export default function App() {
     checkAuth();
   }, [dispatch]);
 
-  // Start background token refresh (only runs if token exists)
+  // Start background token refresh mechanism
+  // This hook handles automatic access token renewal before expiration
   useTokenRefresh();
 
+  // Show a loading screen until the initial auth check is complete
   if (!isInitialized) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-gray-50">
@@ -67,11 +74,13 @@ export default function App() {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         {/* ─── Public Routes ──────────────────────── */}
+        {/* Accessible without authentication */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
         {/* ─── Protected Routes (inside AppLayout) ── */}
+        {/* Requires valid authentication session */}
         <Route
           element={
             <ProtectedRoute>
@@ -79,14 +88,15 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          {/* All authenticated users */}
+          {/* General routes accessible to all authenticated users */}
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/voice" element={<VoiceAssistantPage />} />
           <Route path="/personalization" element={<PersonalizationPage />} />
           <Route path="/settings" element={<SettingsPage />} />
 
-          {/* Members + Admins only */}
+          {/* Role-based routes: Members + Admins only */}
+          {/* Guests cannot access document management */}
           <Route
             path="/documents"
             element={
@@ -96,7 +106,7 @@ export default function App() {
             }
           />
 
-          {/* Admins only */}
+          {/* Role-based routes: Admins only */}
           <Route
             path="/admin"
             element={
@@ -107,7 +117,8 @@ export default function App() {
           />
         </Route>
 
-        {/* ─── 404 ────────────────────────────────── */}
+        {/* ─── 404 Catch-All ──────────────────────── */}
+        {/* Rendered for any undefined routes */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>

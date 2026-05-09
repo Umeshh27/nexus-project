@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="client/public/nexus-logo.png" alt="Nexus Logo" width="80" />
+  <img src="frontend/public/nexus-logo.png" alt="Nexus Logo" width="80" />
 </p>
 
 <h1 align="center">NEXUS</h1>
@@ -32,15 +32,15 @@
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                           NEXUS PLATFORM                                 │
 ├──────────────┬──────────────────────┬────────────────────────────────────┤
-│   CLIENT     │       SERVER         │     ML SERVICE (Phase 2)           │
+│   FRONTEND   │       BACKEND        │     ML SERVICE (Phase 2)           │
 │   (React)    │    (Express/Node)    │     (Python/FastAPI)               │
 │              │                      │                                    │
 │  • Landing   │  • Auth (JWT)        │  • RAG Pipeline                    │
 │  • Dashboard │  • RBAC Middleware   │  • Document Ingestion              │
 │  • Chat UI   │  • File Upload       │  • Semantic Search (ChromaDB)      │
-│  • Documents │  • Chat Sessions     │  • Ollama LLM Integration          │
-│  • Admin     │  • Audit Logging     │  • Whisper Voice-to-Text           │
-│  • Settings  │  • Org Management    │  • Redis Semantic Cache            │
+│  • Voice AI  │  • Chat Sessions     │  • Ollama LLM Integration          │
+│  • Documents │  • Audit Logging     │  • Whisper Voice-to-Text           │
+│  • Admin     │  • Org Management    │  • Redis Semantic Cache            │
 │              │                      │                                    │
 │  Port: 5173  │    Port: 5000        │    Port: 8000                      │
 └──────────────┴──────────────────────┴────────────────────────────────────┘
@@ -70,7 +70,7 @@
 
 ```
 Nexus/
-├── client/                          # React Frontend
+├── frontend/                        # React Frontend
 │   ├── public/                      # Static assets (logo, icons)
 │   ├── src/
 │   │   ├── app/
@@ -141,6 +141,8 @@ Nexus/
 │   │   │   ├── DashboardPage.jsx
 │   │   │   ├── ChatPage.jsx
 │   │   │   ├── DocumentsPage.jsx
+│   │   │   ├── VoiceAssistantPage.jsx
+│   │   │   ├── PersonalizationPage.jsx
 │   │   │   ├── AdminPage.jsx
 │   │   │   ├── SettingsPage.jsx
 │   │   │   └── NotFoundPage.jsx
@@ -160,7 +162,7 @@ Nexus/
 │   ├── index.html
 │   └── package.json
 │
-├── server/                          # Express Backend
+├── backend/                         # Express Backend
 │   ├── src/
 │   │   ├── config/
 │   │   │   ├── db.js                # MongoDB connection
@@ -256,7 +258,7 @@ cd Nexus
 ### 2. Setup Server
 
 ```bash
-cd server
+cd backend
 npm install
 
 # The .env file is pre-configured. For production, update the secrets:
@@ -271,7 +273,7 @@ Server will start at `http://localhost:5000`
 ### 3. Setup Client
 
 ```bash
-cd client
+cd frontend
 npm install
 
 # Start the dev server
@@ -376,7 +378,7 @@ The ML microservice will be built separately by the ML team using:
 
 ### Integration Points
 
-The `server/src/services/mlBridge.js` file contains pre-built HTTP bridge functions:
+The `backend/src/services/mlBridge.js` file contains pre-built HTTP bridge functions:
 
 | Function          | ML Endpoint      | Description                         |
 |-------------------|------------------|-------------------------------------|
@@ -391,14 +393,14 @@ These functions currently return graceful fallbacks when the ML service is unava
 ## 👥 Team Contribution Guide
 
 ### For Frontend Developers
-1. Work in `client/src/`
+1. Work in `frontend/src/`
 2. Follow the feature-based folder structure
 3. Use DaisyUI components + Tailwind utilities
 4. Use RTK Query for all API calls
 5. Test components at `http://localhost:5173`
 
 ### For Backend Developers
-1. Work in `server/src/`
+1. Work in `backend/src/`
 2. Follow the MVC pattern (routes → controllers → models)
 3. Always add `auth` middleware on protected routes
 4. Always add `rbac()` middleware for role-restricted routes
@@ -415,7 +417,7 @@ These functions currently return graceful fallbacks when the ML service is unava
 
 ## 📜 Environment Variables
 
-### Server (`server/.env`)
+### Server (`backend/.env`)
 ```env
 PORT=5000
 NODE_ENV=development
@@ -427,7 +429,7 @@ JWT_REFRESH_EXPIRES=7d
 ML_SERVICE_URL=http://localhost:8000
 ```
 
-### Client (`client/.env`)
+### Client (`frontend/.env`)
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```

@@ -9,6 +9,12 @@ import { logAudit } from "../utils/auditLogger.js";
 
 const authRouter = express.Router();
 
+/**
+ * POST /api/auth/register
+ * Register a new user and either join an existing organization (using an invite code)
+ * or create a new one.
+ * Logs an audit event upon success.
+ */
 authRouter.post("/register", async (req, res) => {
     try {
         isValid(req);
@@ -53,15 +59,15 @@ authRouter.post("/register", async (req, res) => {
         const accessToken = await savedUser.getJWT();
         const refreshToken = await savedUser.getRefreshToken();
 
-        //create a cookie with jwt
+        // create a cookie with jwt tokens
         res.cookie("accessToken", accessToken, {
-            expires: new Date(Date.now() + 24 * 3600000), // 1 day
+            expires: new Date(Date.now() + 24 * 3600000), // 1 day expiration
             httpOnly: true,
             secure: true,
             sameSite:"none",
         });
         res.cookie("refreshToken", refreshToken, {
-            expires: new Date(Date.now() + 7 * 24 * 3600000), // 7 days
+            expires: new Date(Date.now() + 7 * 24 * 3600000), // 7 days expiration
             httpOnly: true,
             secure: true,
             sameSite:"none",
@@ -77,6 +83,11 @@ authRouter.post("/register", async (req, res) => {
     }
 })
 
+/**
+ * POST /api/auth/login
+ * Authenticate a user and set JWT cookies for session management.
+ * Logs an audit event upon success.
+ */
 authRouter.post("/login", async (req, res) => {
     try {
         isValid(req);
@@ -121,9 +132,16 @@ authRouter.post("/login", async (req, res) => {
     }
 })
 
+/**
+ * POST /api/auth/logout
+ * Log a user out by clearing their JWT cookies.
+ * Requires userAuth middleware.
+ * Logs an audit event upon success.
+ */
 authRouter.post("/logout", userAuth, async (req, res) => {
     await logAudit(req, "Logout", "success");
     
+    // Invalidate cookies
     res.cookie("accessToken", null, {
         expires: new Date(Date.now()),
         httpOnly: true,
@@ -139,6 +157,10 @@ authRouter.post("/logout", userAuth, async (req, res) => {
     .send("Logout Successfull!!");
 });
 
+/**
+ * POST /api/auth/refresh
+ * Refresh the access token using a valid refresh token cookie.
+ */
 authRouter.post("/refresh", async (req, res) => {
     try {
         const refreshToken = req.cookies.refreshToken;
@@ -165,6 +187,11 @@ authRouter.post("/refresh", async (req, res) => {
     }
 });
 
+/**
+ * GET /api/auth/me
+ * Fetch the currently authenticated user's details.
+ * Requires userAuth middleware.
+ */
 authRouter.get("/me", userAuth, (req, res) => {
     res.send({ user: req.user });
 });

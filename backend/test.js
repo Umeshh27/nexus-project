@@ -1,5 +1,8 @@
 
-
+/**
+ * Test script to verify the registration API endpoint.
+ * Useful for checking backend connectivity before frontend integration.
+ */
 async function test() {
     const res = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
