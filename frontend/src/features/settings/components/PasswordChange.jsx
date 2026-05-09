@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Lock, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { API_BASE_URL } from '../../../../utils/constants';
+import { API_BASE_URL } from '../../../utils/constants';
 
 export default function PasswordChange() {
   const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
