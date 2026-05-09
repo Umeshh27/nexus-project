@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAccessToken, setCredentials, logout } from '../features/auth/authSlice';
 import axios from 'axios';
+import { API_BASE_URL } from '../utils/constants';
 
 const REFRESH_INTERVAL = 14 * 60 * 1000; // 14 minutes (access token expires in 15)
 
@@ -23,7 +24,7 @@ export default function useTokenRefresh() {
 
     const refreshToken = async () => {
       try {
-        const { data } = await axios.get('/api/auth/refresh', {
+        const { data } = await axios.get(`${API_BASE_URL}/api/auth/refresh`, {
           withCredentials: true,
         });
         dispatch(setCredentials(data));

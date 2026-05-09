@@ -6,6 +6,7 @@ import axios from 'axios';
 import useTokenRefresh from './hooks/useTokenRefresh';
 import ProtectedRoute from './features/auth/components/ProtectedRoute';
 import AppLayout from './components/layout/AppLayout';
+import { API_BASE_URL } from './utils/constants';
 
 let authInitAttempted = false;
 
@@ -40,7 +41,7 @@ export default function App() {
 
     const checkAuth = async () => {
       try {
-        const { data } = await axios.get('/api/auth/refresh', { withCredentials: true });
+        const { data } = await axios.get(`${API_BASE_URL}/api/auth/refresh`, { withCredentials: true });
         dispatch(setCredentials(data));
       } catch {
         // No valid session, just finish init

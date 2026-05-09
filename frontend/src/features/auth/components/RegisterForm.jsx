@@ -5,6 +5,7 @@ import { setCredentials } from '../authSlice';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../utils/constants';
 
 export default function RegisterForm() {
   const location = useLocation();
@@ -32,7 +33,7 @@ export default function RegisterForm() {
         name: formData.name, email: formData.email, password: formData.password, orgAction: formData.orgAction,
         ...(formData.orgAction === 'join' ? { inviteCode: formData.inviteCode } : { orgName: formData.orgName }),
       };
-      const { data } = await axios.post('/api/auth/register', payload, { withCredentials: true });
+      const { data } = await axios.post(`${API_BASE_URL}/api/auth/register`, payload, { withCredentials: true });
       dispatch(setCredentials(data));
       toast.success('Account created successfully!');
       navigate('/dashboard');

@@ -2,6 +2,19 @@
 
 export const API_URL = import.meta.env.VITE_API_URL || '/api';
 
+const RENDER_API_BASE_URL = 'https://nexus-project-09qo.onrender.com';
+
+export const getApiBaseUrl = () => {
+  if (typeof window === 'undefined') return '';
+
+  const host = window.location.hostname;
+  const isLocalHost = host === 'localhost' || host === '127.0.0.1' || host === '::1';
+
+  return isLocalHost ? '' : RENDER_API_BASE_URL;
+};
+
+export const API_BASE_URL = getApiBaseUrl();
+
 export const ROLES = {
   ADMIN: 'admin',
   MEMBER: 'member',

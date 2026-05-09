@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../utils/constants';
 
 export default function SettingsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -17,7 +18,7 @@ export default function SettingsPage() {
   const navigate = useNavigate();
 
   const handleDeleteAccount = async () => {
-    try { await axios.delete('/api/users/account', { withCredentials: true }); dispatch(logout()); toast.success('Account deleted'); navigate('/'); }
+    try { await axios.delete(`${API_BASE_URL}/api/users/account`, { withCredentials: true }); dispatch(logout()); toast.success('Account deleted'); navigate('/'); }
     catch { toast.error('Failed to delete account'); }
     setShowDeleteModal(false);
   };

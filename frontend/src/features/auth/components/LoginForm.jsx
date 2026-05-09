@@ -5,6 +5,7 @@ import { setCredentials } from '../authSlice';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../utils/constants';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ email: 'user@gmail.com', password: 'user@123' });
@@ -21,7 +22,7 @@ export default function LoginForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.post('/api/auth/login', formData, { withCredentials: true });
+      const { data } = await axios.post(`${API_BASE_URL}/api/auth/login`, formData, { withCredentials: true });
       dispatch(setCredentials(data));
       toast.success('Welcome back!');
       navigate('/dashboard');

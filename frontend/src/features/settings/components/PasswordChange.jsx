@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Lock, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../../utils/constants';
 
 export default function PasswordChange() {
   const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
@@ -13,7 +14,7 @@ export default function PasswordChange() {
     if (formData.newPassword.length < 6) return toast.error('Password must be at least 6 characters');
     setLoading(true);
     try {
-      await axios.put('/api/users/password', { currentPassword: formData.currentPassword, newPassword: formData.newPassword }, { withCredentials: true });
+      await axios.put(`${API_BASE_URL}/api/users/password`, { currentPassword: formData.currentPassword, newPassword: formData.newPassword }, { withCredentials: true });
       toast.success('Password updated successfully');
       setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) { toast.error(err.response?.data?.message || 'Failed to update password'); }

@@ -4,6 +4,7 @@ import { selectCurrentUser, updateUser } from '../../auth/authSlice';
 import { User, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../../utils/constants';
 
 export default function ProfileSettings() {
   const user = useSelector(selectCurrentUser);
@@ -15,7 +16,7 @@ export default function ProfileSettings() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.put('/api/users/profile', formData, { withCredentials: true });
+      const { data } = await axios.put(`${API_BASE_URL}/api/users/profile`, formData, { withCredentials: true });
       dispatch(updateUser(data.user));
       toast.success('Profile updated');
     } catch (err) { toast.error(err.response?.data?.message || 'Failed to update profile'); }

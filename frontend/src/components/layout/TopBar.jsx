@@ -5,6 +5,7 @@ import { selectCurrentUser, logout } from '../../features/auth/authSlice';
 import { LogOut, Bell, ChevronDown, User, Settings } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../../utils/constants';
 
 const notifications = [
   { id: 1, title: 'New document uploaded', description: 'Your latest PDF is ready in File Manager.' },
@@ -24,11 +25,11 @@ export default function TopBar() {
 
   const initials = user?.name
     ? user.name
-        .split(' ')
-        .map((segment) => segment[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase()
+      .split(' ')
+      .map((segment) => segment[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase()
     : 'ME';
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export default function TopBar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/auth/logout', {}, { withCredentials: true });
+      await axios.post(`${API_BASE_URL}/api/auth/logout`, {}, { withCredentials: true });
     } catch {
       // Continue with client-side logout even if server call fails
     }
@@ -77,11 +78,11 @@ export default function TopBar() {
   return (
     <header className="bg-[#223959] border-b border-[#1fab78]/20 px-6 py-3 relative z-10 shadow-md">
       <div className="flex items-center justify-between">
-        
+
         {/* Left Side: NEXUS Branding */}
         <div className="flex items-center">
-          <Link 
-            to="/dashboard" 
+          <Link
+            to="/dashboard"
             className="font-nexus text-3xl font-bold tracking-widest text-white drop-shadow-md transition-opacity hover:opacity-90"
           >
             NEXUS
@@ -110,9 +111,8 @@ export default function TopBar() {
             </button>
 
             {showNotifications && (
-              <div className={`absolute right-0 mt-3 w-80 rounded-3xl border border-white/10 bg-slate-950/95 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl text-white overflow-hidden transition-all duration-300 ease-out ${
-                notificationsAnimated ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
-              }`}>
+              <div className={`absolute right-0 mt-3 w-80 rounded-3xl border border-white/10 bg-slate-950/95 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl text-white overflow-hidden transition-all duration-300 ease-out ${notificationsAnimated ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
+                }`}>
                 <div className="px-4 py-4 border-b border-white/10">
                   <p className="text-sm font-semibold">Notifications</p>
                   <p className="text-xs text-slate-300">Latest updates for your member account</p>
@@ -150,9 +150,8 @@ export default function TopBar() {
             </button>
 
             {showProfileMenu && (
-              <div className={`absolute right-0 mt-3 w-56 rounded-3xl border border-white/10 bg-slate-950/95 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl overflow-hidden text-white transition-all duration-300 ease-out ${
-                profileMenuAnimated ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
-              }`}>
+              <div className={`absolute right-0 mt-3 w-56 rounded-3xl border border-white/10 bg-slate-950/95 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl overflow-hidden text-white transition-all duration-300 ease-out ${profileMenuAnimated ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
+                }`}>
                 <Link
                   to="/personalization"
                   className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/5 transition-colors duration-150"
