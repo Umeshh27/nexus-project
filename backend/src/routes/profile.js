@@ -70,14 +70,14 @@ profileRouter.delete("/account", userAuth, async (req, res) => {
         res.cookie("accessToken", null, {
             expires: new Date(Date.now()),
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            secure: true,
+            sameSite: "none",
         });
         res.cookie("refreshToken", null, {
             expires: new Date(Date.now()),
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            secure: true,
+            sameSite: "none",
         }).send({ message: "Account deleted successfully" });
     } catch (err) {
         res.status(400).send({ message: err.message });

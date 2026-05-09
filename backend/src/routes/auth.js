@@ -57,14 +57,14 @@ authRouter.post("/register", async (req, res) => {
         res.cookie("accessToken", accessToken, {
             expires: new Date(Date.now() + 24 * 3600000), // 1 day
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            secure: true,
+            sameSite:"none",
         });
         res.cookie("refreshToken", refreshToken, {
             expires: new Date(Date.now() + 7 * 24 * 3600000), // 7 days
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            secure: true,
+            sameSite:"none",
         });
         
         req.user = savedUser; // Set req.user for audit logger
@@ -96,14 +96,14 @@ authRouter.post("/login", async (req, res) => {
             res.cookie("accessToken", accessToken, {
                 expires: new Date(Date.now() + 24 * 3600000),
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                secure: true,
+                sameSite:"none",
             });
             res.cookie("refreshToken", refreshToken, {
                 expires: new Date(Date.now() + 7 * 24 * 3600000),
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                secure: true,
+                sameSite:"none",
             });
             
             req.user = dbUser;
@@ -127,14 +127,14 @@ authRouter.post("/logout", userAuth, async (req, res) => {
     res.cookie("accessToken", null, {
         expires: new Date(Date.now()),
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: true,
+        sameSite:"none",
     });
     res.cookie("refreshToken", null, {
         expires: new Date(Date.now()),
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: true,
+        sameSite:"none",
     })
     .send("Logout Successfull!!");
 });

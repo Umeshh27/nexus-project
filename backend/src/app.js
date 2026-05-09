@@ -14,7 +14,10 @@ import dotenv from "dotenv";
 dotenv.config()
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use(cors({
+    origin: ["http://localhost:5173", "https://nexus-project-tau.vercel.app"],
+    credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 
