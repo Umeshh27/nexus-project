@@ -19,7 +19,7 @@ authRouter.post("/register", async (req, res) => {
     try {
         isValid(req);
 
-        const { name, email, password, photoURL, orgAction, inviteCode, orgName } = req.body;
+        const { name, email, password, orgAction, inviteCode, orgName } = req.body;
 
         let orgId = null;
         let role = "member";
@@ -38,7 +38,6 @@ authRouter.post("/register", async (req, res) => {
             name,
             email,
             password,
-            photoURL,
             role,
             organizationId: orgId
         });

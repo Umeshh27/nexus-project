@@ -16,12 +16,7 @@ const isValid = (req, res) => {
 const validateEditProfileData = (req) => {
     const allowedUpdates = [
         "name",
-        "email",
-        "photoURL",
-        "bio",
-        "age",
-        "gender",
-        "skills",
+        "email"
     ];
 
     const isValid = Object.keys(req.body).every((key) =>

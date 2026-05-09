@@ -22,7 +22,7 @@ profileRouter.get("/profile/view" ,userAuth , (req, res) => {
 
 /**
  * PUT /api/users/profile
- * Update the authenticated user's profile details (e.g., name, photoURL).
+ * Update the authenticated user's profile details (e.g., name).
  * Validates request data before applying updates.
  * Logs an audit event upon success.
  */
