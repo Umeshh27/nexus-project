@@ -4,7 +4,7 @@ import { selectCurrentUser, updateUser } from '../../auth/authSlice';
 import { User, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { API_BASE_URL } from '../../../../utils/constants';
+import { API_BASE_URL } from '../../../utils/constants';
 
 export default function ProfileSettings() {
   const user = useSelector(selectCurrentUser);
